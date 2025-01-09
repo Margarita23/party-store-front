@@ -18,11 +18,11 @@
     "use-local-storage-state": "^19.5.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "startDev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "webStart": "serve -s build",
+    "start": "serve -s build",
     "heroku-postbuild": "npm run build"
   },
   "eslintConfig": {
