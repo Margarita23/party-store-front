@@ -15,6 +15,7 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.1.1",
     "react-scripts": "5.0.1",
+    "serve": "^14.2.4",
     "use-local-storage-state": "^19.5.0"
   },
   "scripts": {
@@ -22,8 +23,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start": "serve -s build",
-    "heroku-postbuild": "npm run build"
+    "start": "serve -s build"
   },
   "eslintConfig": {
     "extends": [
