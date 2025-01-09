@@ -9,11 +9,12 @@ function Layout() {
 
 	useEffect(() => {
     const token = localStorage.getItem('authToken');
+    const AuthStr = 'Bearer '.concat(String(token)); 
     const checkAuth = async () => {
       try {
         const response = await axiosInstance.get('/current_user',
           { headers: 
-            { Authorization: token}
+            { Authorization: AuthStr}
           });
         if (response.status === 200 && response.data) {
           setIsAuthenticated(true);
