@@ -11,10 +11,11 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useNavigate } from "react-router-dom";
-import axiosInstance from '../api/axios.ts';
-import { Link } from "react-router-dom";
+import axiosInstance from '../api/axios';
+import CartWidget from './CartWidget';
+import useLocalStorageState from 'use-local-storage-state';
+import { CartProps } from '../interfaces/interfaces';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 
@@ -36,16 +37,15 @@ function HeaderMenu() {
   };
 
   const handleCloseUserMenu = () => {
-    console.log('+++')
     setAnchorElUser(null);
   };
 
-  const handleOpenProducts = () => {
+  const handleOpenItems = () => {
     navigate('/items')
   }
 
   const handleOpenMyOrders = () => {
-    console.log('=-=')
+    navigate('/orders')
   }
 
   const handleLogout = async () => {
@@ -75,14 +75,17 @@ function HeaderMenu() {
     navigate('/profile')
   }
 
+  const [cart,] = useLocalStorageState<CartProps>('cart', {})
+  const itemsCount: number = Object.keys(cart || {}).length
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
 
-          <Link to="/cart" className="link">
-            <ShoppingCartIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          </Link>
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
+            <CartWidget itemsCount={itemsCount} />
+          </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -111,8 +114,8 @@ function HeaderMenu() {
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
-              <MenuItem key='Products' onClick={handleOpenProducts}>
-                <Typography sx={{ textAlign: 'center' }}>All Products</Typography>
+              <MenuItem key='Products' onClick={handleOpenItems}>
+                <Typography sx={{ textAlign: 'center' }}>All Items</Typography>
               </MenuItem>
               <MenuItem key='My orders' onClick={handleOpenMyOrders}>
                 <Typography sx={{ textAlign: 'center' }}>My orders</Typography>
@@ -120,9 +123,9 @@ function HeaderMenu() {
 
             </Menu>
           </Box>
-          <Link to="/cart" className="link">
-            <ShoppingCartIcon href="/cart" sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          </Link>
+          <Box sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }}>
+            <CartWidget itemsCount={itemsCount} />
+          </Box>
           
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (

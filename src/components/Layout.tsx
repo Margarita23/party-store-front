@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import {useState, useEffect} from 'react'
 import HeaderMenu from './HeaderMenu.tsx';
 import { Outlet, Navigate } from 'react-router-dom';
 import axiosInstance from '../api/axios.ts';
@@ -16,7 +16,7 @@ function Layout() {
         } else {
           setIsAuthenticated(false);
         }
-      } catch (error) {
+      } catch (error: any) {
         if (error.response && error.response.status === 401) {
 					setIsAuthenticated(false);
 					console.log('++')

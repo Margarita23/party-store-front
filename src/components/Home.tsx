@@ -1,6 +1,4 @@
-import React from 'react'
-
-function Home() {
+function Home(){
   return (
     <>
       <p>Hello at the home</p>

@@ -1,4 +1,3 @@
-import React from 'react'
 
 import {
   Avatar,
@@ -13,7 +12,7 @@ import {
 import { LockOutlined } from "@mui/icons-material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import axiosInstance from '../api/axios.ts';
+import axiosInstance from '../api/axios';
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {

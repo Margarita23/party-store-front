@@ -1,4 +1,3 @@
-import React from 'react'
 import { LockOutlined } from "@mui/icons-material";
 import {
   Container,
@@ -12,7 +11,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import axiosInstance from '../api/axios.ts';
+import axiosInstance from '../api/axios';
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -39,10 +38,11 @@ const Login = () => {
       const { token } = response.data;
   
       localStorage.setItem('authToken', token);
+      localStorage.setItem('userRole', response.data?.data?.role || "user");
 
       navigate("/items");
   
-    } catch (error) {
+    } catch (error: any) {
       console.error('Login failed:', error.response.data);
     }
 
