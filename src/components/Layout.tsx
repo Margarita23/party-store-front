@@ -8,9 +8,13 @@ function Layout() {
   const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
+    const token = localStorage.getItem('authToken');
     const checkAuth = async () => {
       try {
-        const response = await axiosInstance.get('/current_user');
+        const response = await axiosInstance.get('/current_user',
+          { headers: 
+            { Authorization: token}
+          });
         if (response.status === 200 && response.data) {
           setIsAuthenticated(true);
         } else {
@@ -19,7 +23,6 @@ function Layout() {
       } catch (error: any) {
         if (error.response && error.response.status === 401) {
 					setIsAuthenticated(false);
-					console.log('++')
 				} else {
 					console.error('Error checking authentication:', error);
 				}
