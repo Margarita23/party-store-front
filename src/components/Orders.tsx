@@ -20,11 +20,15 @@ const Orders: FunctionComponent = () => {
 			});
 	}, []);
 
+	if (error) {
+		return <h3>An error occurred when fetching data. Please check the API and try again.</h3>
+	  }
+
 	if (isLoading) {
 		return <div>Loading...</div>;
 	}
 
-	if (orders.length == 0) {
+	if (orders.length === 0) {
 		return <div>You don't have any orders.</div>;
 	}
 		

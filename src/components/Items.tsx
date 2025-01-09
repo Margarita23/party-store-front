@@ -53,7 +53,7 @@ const Items: FunctionComponent = () => {
     <>
     <div className="itemsHeader">
       <h1>Items</h1>
-      {userRole == 'admin' && (
+      {userRole === 'admin' && (
         <Button
           onClick={() => createItems()}
         >
