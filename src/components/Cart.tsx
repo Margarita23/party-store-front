@@ -95,6 +95,7 @@ const Cart: FunctionComponent = () => {
               <Quantifier
                 removeProductCallback={() => handleRemoveProduct(item.id)}
                 productId={item.id}
+                quantity={item.quantity}
                 handleUpdateQuantity={handleUpdateQuantity} />
             </Box>
             </Box>

@@ -27,19 +27,32 @@ const Items: FunctionComponent = () => {
   }, []);
 
   const addToCart = (product: Item):void => {
-    product.quantity = 1
 
-    setCart((prevCart: any) => ({
-      ...prevCart,
-      [product.id]: product,
-    }))
+    setCart((prevCart: any) => {
+      if (prevCart[product.id]) {
+        return {
+          ...prevCart,
+          [product.id]: {
+            ...prevCart[product.id],
+            quantity: prevCart[product.id].quantity + 1,
+          },
+        };
+      }
+  
+      return {
+        ...prevCart,
+        [product.id]: {
+          ...product,
+          quantity: 1,
+        },
+      };
+    });
+    
   }
 
   const createItems = ():void => {
     console.log('+')
   }
-
-  const isInCart = (productId: number):boolean => Object.keys(cart || {}).includes(productId.toString())
 
   if (error) {
     return <h3>An error occurred when fetching data. Please check the API and try again.</h3>
@@ -91,7 +104,6 @@ const Items: FunctionComponent = () => {
                 /> */}
                 <Button
                   size="small"
-                  disabled={isInCart(item.id)}
                   onClick={() => addToCart(item)}
                 >
                   Add to cart

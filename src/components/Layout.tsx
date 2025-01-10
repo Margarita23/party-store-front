@@ -46,7 +46,7 @@ function Layout() {
   return (
     <>
 		<HeaderMenu />
-			<main style={{ marginTop: '64px' }}>
+			<main style={{ margin: '64px 40px 0px 40px' }}>
 				<Outlet />
       </main>
     </>

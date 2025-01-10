@@ -7,6 +7,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Layout from './components/Layout'
 import Orders from './components/Orders'
+import Profile from './pages/Profile'
 
 function App() {
   return (
@@ -27,6 +28,10 @@ function App() {
             <Route
               path="/cart"
               element={<Cart />}
+            />
+            <Route
+              path="/profile"
+              element={<Profile />}
             />
           </Route>
           

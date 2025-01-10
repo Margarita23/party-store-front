@@ -33,22 +33,26 @@ const Orders: FunctionComponent = () => {
 	}
 		
   return (
-      <Grid container spacing={3}>
-      {orders.map((order) => (
-        <Grid key={order.id}>
-          <Card sx={{ minWidth: 300, maxWidth: 400 }} style={{ margin: 10 }}>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {order.id}
-              </Typography>
-              <Typography variant="body1" sx={{ color: 'text.secondary' }}>
-                {order.amount}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-      ))}
-    </Grid>
+	<>
+		<h1>Orders</h1>
+
+		<Grid container spacing={3}>
+			{orders.map((order) => (
+				<Grid key={order.id}>
+				<Card sx={{ minWidth: 300, maxWidth: 400 }} style={{ margin: 10 }}>
+					<CardContent>
+					<Typography gutterBottom variant="h5" component="div">
+						{order.id}
+					</Typography>
+					<Typography variant="body1" sx={{ color: 'text.secondary' }}>
+						{order.amount}
+					</Typography>
+					</CardContent>
+				</Card>
+				</Grid>
+			))}
+		</Grid>
+	</>
   )
 }
 
