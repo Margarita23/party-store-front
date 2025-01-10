@@ -3,11 +3,8 @@ import useLocalStorageState from 'use-local-storage-state'
 
 import { Item } from '../models/Item'
 import { CartProps } from '../interfaces/interfaces'
-import { Box, Button, Card, CardActions, CardContent, Grid, IconButton, TextField, Typography } from '@mui/material'
+import { Button, Card, CardActions, CardContent, Grid, Typography } from '@mui/material'
 import axiosInstance from '../api/axios.ts';
-import CurrencyFormatter from './CurrencyFormatter.tsx'
-import RemoveIcon from '@mui/icons-material/Remove';
-import AddIcon from '@mui/icons-material/Add';
 
 const Items: FunctionComponent = () => {
   const [isLoading, setIsLoading] = useState(true)
