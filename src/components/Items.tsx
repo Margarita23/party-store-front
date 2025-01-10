@@ -111,7 +111,7 @@ const Items: FunctionComponent = () => {
                 />
                 <Button
                   size="small"
-                  onClick={() => addToCart(item, quantities[item.id])}
+                  onClick={() => addToCart(item, quantities[item.id] || 1)}
                 >
                   Add to cart
                 </Button>
