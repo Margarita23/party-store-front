@@ -9,7 +9,12 @@ const Orders: FunctionComponent = () => {
 		const [error, setError] = useState(false)
 
 	useEffect(() => {
-		axiosInstance.get('/orders')
+		const token = localStorage.getItem('authToken');
+
+		axiosInstance.get('/orders',
+			{ headers: 
+			  { Authorization: `Bearer ${token}`}
+			})
 			.then(response => {
 				setOrders(response.data);
 				setIsLoading(false)
