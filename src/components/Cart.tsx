@@ -39,10 +39,7 @@ const Cart: FunctionComponent = () => {
     })
   }
 
-  
   const confirmPayment = async () => {
-    console.log("I payed for all of items!");
-    console.log(cart);
     const itemsInCart = Object.values(cart || {});
     const token = localStorage.getItem('authToken');
     const orderPayload = {
@@ -54,11 +51,14 @@ const Cart: FunctionComponent = () => {
     };
 
     try {
-      await axiosInstance.post('/orders', {
+      await axiosInstance.post('/orders',
+      {
+        order: orderPayload
+      },
+      {
         headers: {
           Authorization: `Bearer ${token}`
-        },
-        order: orderPayload
+        }
       });
 
     } catch (error) {
