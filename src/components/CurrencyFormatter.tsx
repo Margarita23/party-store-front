@@ -4,7 +4,7 @@ import { Props } from '../interfaces/interfaces';
 const CurrencyFormatter: FunctionComponent<Props> = ({ amount }) => {
   const formattedAmount = amount.toLocaleString('en-GB', {
     style: 'currency',
-    currency: 'GBP'
+    currency: 'USD'
   })
 
   return <span>{formattedAmount}</span>

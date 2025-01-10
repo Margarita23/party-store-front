@@ -3,16 +3,19 @@ import useLocalStorageState from 'use-local-storage-state'
 
 import { Item } from '../models/Item'
 import { CartProps } from '../interfaces/interfaces'
-import { Button, Card, CardActions, CardContent, Grid, Typography } from '@mui/material'
+import { Box, Button, Card, CardActions, CardContent, Grid, IconButton, TextField, Typography } from '@mui/material'
 import axiosInstance from '../api/axios.ts';
 import CurrencyFormatter from './CurrencyFormatter.tsx'
+import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from '@mui/icons-material/Add';
 
 const Items: FunctionComponent = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [items, setItems] = useState<Item[]>([])
   const [error, setError] = useState(false)
   const [cart, setCart] = useLocalStorageState<CartProps>('cart', {})
-  const userRole = localStorage.getItem('userRole') || "user";
+  const userRole = localStorage.getItem('userRole') || "user"
+  const [quantities, setQuantities] = useState<Record<number, number>>({})
 
   useEffect(() => {
     axiosInstance.get('/items')
@@ -26,7 +29,15 @@ const Items: FunctionComponent = () => {
       });
   }, []);
 
-  const addToCart = (product: Item):void => {
+  const handleQuantityChange = (itemId: number, quantity: number): void => {
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [itemId]: quantity,
+    }))
+  }
+
+  const addToCart = (product: Item, quant: number):void => {
+    const quantity = quant
 
     setCart((prevCart: any) => {
       if (prevCart[product.id]) {
@@ -34,7 +45,7 @@ const Items: FunctionComponent = () => {
           ...prevCart,
           [product.id]: {
             ...prevCart[product.id],
-            quantity: prevCart[product.id].quantity + 1,
+            quantity: prevCart[product.id].quantity + quantity,
           },
         };
       }
@@ -43,7 +54,7 @@ const Items: FunctionComponent = () => {
         ...prevCart,
         [product.id]: {
           ...product,
-          quantity: 1,
+          quantity: quantity,
         },
       };
     });
@@ -88,12 +99,11 @@ const Items: FunctionComponent = () => {
                   {item.description}
                 </Typography>
                 <Typography gutterBottom variant="h6" component="div">
-                  {/* ${item.price} */}
-                  <CurrencyFormatter amount={item.price} />
+                  ${item.price}
                 </Typography>
               </CardContent>
               <CardActions>
-                {/* <input
+                <input
                   type="number"
                   aria-label={`Quantity for ${item.name}`}
                   placeholder="1"
@@ -101,10 +111,10 @@ const Items: FunctionComponent = () => {
                   min={1}
                   onChange={(e) => handleQuantityChange(item.id, Math.max(1, parseInt(e.target.value, 10)))}
                   style={{ width: '60px', marginRight: '10px' }}
-                /> */}
+                />
                 <Button
                   size="small"
-                  onClick={() => addToCart(item)}
+                  onClick={() => addToCart(item, quantities[item.id])}
                 >
                   Add to cart
                 </Button>
