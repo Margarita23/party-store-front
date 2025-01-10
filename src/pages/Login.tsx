@@ -39,6 +39,7 @@ const Login = () => {
   
       localStorage.setItem('authToken', token);
       localStorage.setItem('userRole', response.data?.data?.role || "user");
+      localStorage.setItem('cart', JSON.stringify({}));
 
       navigate("/items");
   
