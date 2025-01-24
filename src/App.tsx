@@ -8,6 +8,8 @@ import Register from './pages/Register'
 import Layout from './components/Layout'
 import Orders from './components/Orders'
 import Profile from './pages/Profile'
+import Order from './components/Order'
+import Users from './components/Users'
 
 function App() {
   return (
@@ -22,8 +24,16 @@ function App() {
               element={<Orders />}
             />
             <Route
+              path="/orders/:orderId"
+              element={<Order />}
+            />
+            <Route
               path="/items"
               element={<Items />}
+            />
+            <Route
+              path="/users"
+              element={<Users />}
             />
             <Route
               path="/cart"

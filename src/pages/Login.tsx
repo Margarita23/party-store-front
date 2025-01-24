@@ -8,6 +8,7 @@ import {
   TextField,
   Button,
   Grid,
+  Alert
 } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -17,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("")
 
   const navigate = useNavigate();
 
@@ -44,7 +46,7 @@ const Login = () => {
       navigate("/items");
   
     } catch (error: any) {
-      console.error('Login failed:', error.response.data);
+      setError(error.response.data.error)
     }
 
   };
@@ -53,6 +55,7 @@ const Login = () => {
     <>
       <Container maxWidth="xs">
         <CssBaseline />
+        {error && <Alert severity="error">{error}</Alert>}
         <Box
           sx={{
             mt: 20,

@@ -1,4 +1,4 @@
-import { Item } from "../models/Item";
+import { Item, NewItemModel } from "../types/types";
 
 export interface CartItem {
     item: Item;
@@ -15,4 +15,10 @@ export interface CartProps {
 
 export interface PropsWidget {
     itemsCount: number
+}
+
+export interface ItemNewFormProps {
+    open: boolean
+    itemData?: NewItemModel
+    onClose: (value?: NewItemModel) => void
 }

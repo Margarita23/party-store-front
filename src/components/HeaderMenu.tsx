@@ -17,11 +17,13 @@ import CartWidget from './CartWidget';
 import useLocalStorageState from 'use-local-storage-state';
 import { CartProps } from '../interfaces/interfaces';
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = ['All Items', 'My orders'];
 
 function HeaderMenu() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const userRole = localStorage.getItem('userRole') || "user"
+
   const navigate = useNavigate();
 
 
@@ -46,6 +48,24 @@ function HeaderMenu() {
 
   const handleOpenMyOrders = () => {
     navigate('/orders')
+  }
+
+  const handleOpenUsers = () => {
+    navigate('/users')
+  }
+
+  const handleOpenPage = (page: String) => {
+    switch(page) {
+      case 'All Items' : 
+        navigate('/items')
+        break;
+      case 'My orders':
+        navigate('/orders')
+        break;
+      case 'All Users':
+        navigate('/users')
+        break;
+    }   
   }
 
   const handleLogout = async () => {
@@ -114,13 +134,17 @@ function HeaderMenu() {
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
-              <MenuItem key='Products' onClick={handleOpenItems}>
+              <MenuItem key='All Items' onClick={handleOpenItems}>
                 <Typography sx={{ textAlign: 'center' }}>All Items</Typography>
               </MenuItem>
               <MenuItem key='My orders' onClick={handleOpenMyOrders}>
                 <Typography sx={{ textAlign: 'center' }}>My orders</Typography>
               </MenuItem>
-
+              {userRole === 'admin' && (
+                <MenuItem key='All Users' onClick={handleOpenUsers}>
+                  <Typography sx={{ textAlign: 'center' }}>All Users</Typography>
+                </MenuItem>
+              )}
             </Menu>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }}>
@@ -131,12 +155,21 @@ function HeaderMenu() {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={() => {handleOpenPage(page)}}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page}
               </Button>
             ))}
+            {userRole === 'admin' && (
+              <Button
+                key="All Users"
+                onClick={() => {handleOpenPage("All Users")}}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                All Users
+              </Button>
+            )}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">

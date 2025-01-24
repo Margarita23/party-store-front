@@ -1,4 +1,8 @@
-import { FunctionComponent, useEffect } from 'react'
+import {
+  FunctionComponent,
+  useEffect,
+  useState
+} from 'react'
 import useLocalStorageState from 'use-local-storage-state'
 
 import { CartProps } from '../interfaces/interfaces'
@@ -6,11 +10,19 @@ import { useLocation } from 'react-router-dom'
 import { Operation } from '../types/types'
 import Quantifier from './Quantifier'
 import { TotalPrice } from './TotalPrice'
-import { Box, Button, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Typography,
+  Alert
+} from '@mui/material'
 import axiosInstance from '../api/axios'
 
 const Cart: FunctionComponent = () => {
   const [cart, setCart] = useLocalStorageState<CartProps>('cart', {})
+  const [error, setError] = useState("")
+  const [success, setSuccess] = useState("")
+  const [info, setInfo] = useState("")
   const location = useLocation()
 
   useEffect(() => {
@@ -20,7 +32,12 @@ const Cart: FunctionComponent = () => {
   const handleRemoveProduct = (productId: number): void => {
     setCart((prevCart: any) => {
       const updatedCart = { ...prevCart }
+      const deletedItem = updatedCart[productId]
       delete updatedCart[productId]
+
+      let infoMessage = `You removed '${deletedItem.name}' (quantity: ${deletedItem.quantity}) from your cart.`
+
+      setInfo(infoMessage)
       return updatedCart
     })
   }
@@ -40,15 +57,15 @@ const Cart: FunctionComponent = () => {
   }
 
   const confirmPayment = async () => {
-    const itemsInCart = Object.values(cart || {});
-    const token = localStorage.getItem('authToken');
+    const itemsInCart = Object.values(cart || {})
+    const token = localStorage.getItem('authToken')
     const orderPayload = {
       amount: totalPrice,
       order_descriptions_attributes: itemsInCart.map((item) => ({
         item_id: item.id,
         quantity: item.quantity,
       }))
-    };
+    }
 
     try {
       await axiosInstance.post('/orders',
@@ -61,11 +78,14 @@ const Cart: FunctionComponent = () => {
         }
       });
 
-    } catch (error) {
-      console.error('Logout failed:', error);
+    } catch (error: any) {
+      setError(error.response.data.error)
     } finally {
-      localStorage.removeItem("cart");
-      clearCart();
+      setError("")
+      setInfo("")
+      setSuccess("Your order was created successfully!")
+      localStorage.removeItem("cart")
+      clearCart()
     }
     
   }
@@ -80,6 +100,11 @@ const Cart: FunctionComponent = () => {
 
   return (
     <section>
+
+      {info && <Alert severity="info">{info}</Alert>}
+      {error && <Alert severity="error">{error}</Alert>}
+      {success && <Alert severity="success">{success}</Alert>}
+
       <h1>Cart</h1>
 
       <div>
@@ -123,4 +148,4 @@ const Cart: FunctionComponent = () => {
   )
 }
 
-export default Cart;
+export default Cart

@@ -14,7 +14,7 @@ const CartWidget: FunctionComponent<PropsWidget> = ({ itemsCount }) => {
   return (
     <Button onClick={navigateToCart}>
         <Typography sx={{ textAlign: 'center', color: 'white' }}>{itemsCount}</Typography>
-        <ShoppingCartIcon sx={{ color: 'white', display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+        <ShoppingCartIcon sx={{ color: 'white', display: 'flex', mr: 1 }} />
     </Button>
   )
 }

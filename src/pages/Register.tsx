@@ -8,25 +8,28 @@ import {
   Grid,
   TextField,
   Typography,
-} from "@mui/material";
-import { LockOutlined } from "@mui/icons-material";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import axiosInstance from '../api/axios';
-import { useNavigate } from "react-router-dom";
+  Alert
+} from "@mui/material"
+import { LockOutlined } from "@mui/icons-material"
+import { useState } from "react"
+import { Link } from "react-router-dom"
+import axiosInstance from '../api/axios'
+import { useNavigate } from "react-router-dom"
 
 const Register = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [passwordConfirmation, setPasswordConfirmation] = useState("")
+  const [error, setError] = useState("")
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleRegister = async () => {
-    if (!name || !email || !password || !passwordConfirmation) {
-      alert("Please fill in all fields.");
-      return;
+    if (!firstName || !email || !password || !passwordConfirmation) {
+      setError("Please fill in all fields.")
+      return
     }
   
     try {
@@ -34,7 +37,8 @@ const Register = () => {
          "/signup",
         {
           user: {
-            first_name: name,
+            first_name: firstName,
+            last_name: lastName || "",
             email: email,
             password: password,
             password_confirmation: passwordConfirmation
@@ -46,13 +50,13 @@ const Register = () => {
         }
       );
 
-      const { token } = response.data;
+      const { token } = response.data
   
       localStorage.setItem('authToken', token);
 
-      navigate("/items");
-    } catch(error) {
-      console.log(error);
+      navigate("/items")
+    } catch(error: any) {
+      setError(error.response.data.error)
     };
 
   };
@@ -61,6 +65,7 @@ const Register = () => {
     <>
       <Container maxWidth="xs">
         <CssBaseline />
+        {error && <Alert severity="error">{error}</Alert>}
         <Box
           sx={{
             mt: 20,
@@ -77,14 +82,25 @@ const Register = () => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                  name="name"
+                  name="first_name"
                   required
                   fullWidth
-                  id="name"
-                  label="Name"
+                  id="first_name"
+                  label="First Name"
                   autoFocus
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  name="last_name"
+                  fullWidth
+                  id="last_name"
+                  label="Last Name"
+                  autoFocus
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                 />
               </Grid>
 
@@ -123,7 +139,6 @@ const Register = () => {
                   onChange={(e) => setPasswordConfirmation(e.target.value)}
                 />
               </Grid>
-              Password confirmation
 
             </Grid>
             <Button
